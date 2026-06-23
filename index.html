@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HR Attrition Portfolio Dashboard</title>
+  <link rel="stylesheet" href="./style.css?v=portfolio-v3" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-logo" aria-hidden="true">◔</div>
+        <div>
+          <p>Human Capital Intelligence</p>
+          <h1>HR Attrition Dashboard</h1>
+        </div>
+      </div>
+
+      <nav class="topnav" aria-label="Dashboard navigation">
+        <a href="#overview" class="active">Overview</a>
+        <a href="#risk">Risk</a>
+        <a href="#profile">Profile</a>
+        <a href="#actions">Retention</a>
+      </nav>
+
+      <div class="data-pill" title="Data source">
+        <span class="live-dot"></span>
+        <span>Sample HR Dataset Loaded</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-panel" id="overview">
+        <div class="hero-gridline" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <div class="hero-chip">✦ Executive HR Analytics</div>
+          <h2>Employee Attrition & Retention Dashboard</h2>
+          <p>
+            A recruiter-ready portfolio dashboard that identifies resignation risk patterns by department,
+            role, overtime, age, tenure, income, and work-life balance.
+          </p>
+          <div class="source-card">
+            <div class="source-icon">▦</div>
+            <div>
+              <span>Current Analysis Focus</span>
+              <strong>Attrition Risk & Retention</strong>
+              <small>Static sample dataset embedded directly in JavaScript. No file upload required.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Dashboard business focus">
+          <div class="floating-badge badge-top">⚙ Workload</div>
+          <div class="floating-badge badge-right">◎ Career Growth</div>
+          <div class="floating-badge badge-bottom">◆ Compensation</div>
+          <div class="focus-orb">
+            <div class="orb-inner">
+              <span>Business Focus</span>
+              <strong id="heroAttritionRate">0%</strong>
+              <small>Current Attrition Rate</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="summary-banner">
+        <span class="banner-label">Current Insight</span>
+        <p id="heroInsight">Calculating workforce risk summary...</p>
+      </section>
+
+      <section class="filter-panel" aria-label="Interactive dashboard filters">
+        <div class="filter-title">
+          <p>Interactive Filters</p>
+          <h3>Refine the analysis scope</h3>
+        </div>
+        <div class="filter-control">
+          <label for="departmentFilter">Department</label>
+          <select id="departmentFilter"></select>
+        </div>
+        <div class="filter-control">
+          <label for="jobRoleFilter">Job Role</label>
+          <select id="jobRoleFilter"></select>
+        </div>
+        <div class="filter-control">
+          <label for="genderFilter">Gender</label>
+          <select id="genderFilter"></select>
+        </div>
+        <div class="filter-control">
+          <label for="overtimeFilter">Overtime</label>
+          <select id="overtimeFilter"></select>
+        </div>
+        <button id="resetFiltersBtn" class="reset-btn" type="button">Reset Filters</button>
+      </section>
+
+      <section class="kpi-grid" aria-label="Key HR indicators">
+        <article class="kpi-card">
+          <span>Total Employees</span>
+          <strong id="kpiEmployees">0</strong>
+          <p>Employees included in the selected segment.</p>
+        </article>
+        <article class="kpi-card danger">
+          <span>Attrition Employees</span>
+          <strong id="kpiAttrition">0</strong>
+          <p>Employees with attrition status = Yes.</p>
+        </article>
+        <article class="kpi-card success">
+          <span>Active Employees</span>
+          <strong id="kpiActive">0</strong>
+          <p>Employees retained in the selected dataset.</p>
+        </article>
+        <article class="kpi-card accent">
+          <span>Average Monthly Income</span>
+          <strong id="kpiIncome">$0</strong>
+          <p>Average income across selected employees.</p>
+        </article>
+      </section>
+
+      <section class="insight-strip" id="risk">
+        <article>
+          <span>Primary Risk Signal</span>
+          <strong id="riskSignal">-</strong>
+          <p id="riskSignalDesc">-</p>
+        </article>
+        <article>
+          <span>Highest-Risk Role</span>
+          <strong id="riskRole">-</strong>
+          <p id="riskRoleDesc">-</p>
+        </article>
+        <article>
+          <span>Early Tenure Risk</span>
+          <strong id="tenureSignal">-</strong>
+          <p id="tenureSignalDesc">-</p>
+        </article>
+      </section>
+
+      <section class="chart-grid two-col">
+        <article class="chart-card">
+          <div class="section-header">
+            <div><p>Department View</p><h3>Attrition Rate by Department</h3></div>
+            <span>Rate</span>
+          </div>
+          <div id="departmentChart" class="bar-chart"></div>
+        </article>
+        <article class="chart-card">
+          <div class="section-header">
+            <div><p>Workload Signal</p><h3>Attrition Rate by Overtime</h3></div>
+            <span>Risk Driver</span>
+          </div>
+          <div id="overtimeChart" class="bar-chart"></div>
+        </article>
+      </section>
+
+      <section class="chart-card full-width">
+        <div class="section-header">
+          <div><p>Role-Level Diagnosis</p><h3>Top Job Roles by Attrition Rate</h3></div>
+          <span>Top Segments</span>
+        </div>
+        <div id="jobRoleChart" class="bar-chart tall"></div>
+      </section>
+
+      <section class="chart-grid two-col" id="profile">
+        <article class="chart-card">
+          <div class="section-header">
+            <div><p>Demographic Profile</p><h3>Attrition Rate by Age Group</h3></div>
+            <span>Age</span>
+          </div>
+          <div id="ageChart" class="bar-chart"></div>
+        </article>
+        <article class="chart-card">
+          <div class="section-header">
+            <div><p>Employee Lifecycle</p><h3>Attrition Rate by Tenure</h3></div>
+            <span>Tenure</span>
+          </div>
+          <div id="tenureChart" class="bar-chart"></div>
+        </article>
+        <article class="chart-card">
+          <div class="section-header">
+            <div><p>Compensation Signal</p><h3>Attrition Rate by Income Group</h3></div>
+            <span>Income</span>
+          </div>
+          <div id="incomeChart" class="bar-chart"></div>
+        </article>
+        <article class="chart-card">
+          <div class="section-header">
+            <div><p>Work-Life Signal</p><h3>Attrition Rate by Work-Life Balance</h3></div>
+            <span>Balance</span>
+          </div>
+          <div id="worklifeChart" class="bar-chart"></div>
+        </article>
+      </section>
+
+      <section class="table-card" id="actions">
+        <div class="section-header">
+          <div><p>Prioritization</p><h3>Risk Segment Action List</h3></div>
+          <span>Action List</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Segment</th>
+                <th>Total</th>
+                <th>Attrition</th>
+                <th>Rate</th>
+                <th>Business Interpretation</th>
+              </tr>
+            </thead>
+            <tbody id="riskTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="recommendation-grid">
+        <article class="recommendation-card"><span>01</span><h3>Manage Overtime Exposure</h3><p>Prioritize workload review for employees with overtime because this segment shows a stronger resignation signal.</p></article>
+        <article class="recommendation-card"><span>02</span><h3>Strengthen Early-Tenure Retention</h3><p>Improve onboarding, mentoring, and manager check-ins during the first two years to reduce early churn.</p></article>
+        <article class="recommendation-card"><span>03</span><h3>Review High-Risk Roles</h3><p>Focus on roles with both high attrition rate and meaningful headcount before designing retention interventions.</p></article>
+        <article class="recommendation-card"><span>04</span><h3>Align Pay and Growth</h3><p>Use income-band and job-level patterns to identify groups needing clearer promotion or compensation pathways.</p></article>
+      </section>
+    </main>
+  </div>
+  <script src="./script.js?v=portfolio-v3"></script>
+</body>
+</html>
